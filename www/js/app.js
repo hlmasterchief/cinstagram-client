@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('cinstagram', ['ionic', 'cinstagram.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -39,7 +39,8 @@ angular.module('starter', ['ionic'])
     url: '/home',
     views: {
       'app-home': {
-        templateUrl: 'templates/app-home.html'
+        templateUrl: 'templates/app-home.html',
+        controller: 'HomeCtrl'
       }
     }
   })
@@ -48,7 +49,8 @@ angular.module('starter', ['ionic'])
     url: '/search',
     views: {
       'app-search': {
-        templateUrl: 'templates/app-search.html'
+        templateUrl: 'templates/app-search.html',
+        controller: 'SearchCtrl'
       }
     }
   })
@@ -57,7 +59,8 @@ angular.module('starter', ['ionic'])
     url: '/camera',
     views: {
       'app-camera': {
-        templateUrl: 'templates/app-camera.html'
+        templateUrl: 'templates/app-camera.html',
+        controller: 'CameraCtrl'
       }
     }
   })
@@ -66,7 +69,8 @@ angular.module('starter', ['ionic'])
     url: '/activity',
     views: {
       'app-activity': {
-        templateUrl: 'templates/app-activity.html'
+        templateUrl: 'templates/app-activity.html',
+        controller: 'ActivityCtrl'
       }
     }
   })
@@ -75,7 +79,8 @@ angular.module('starter', ['ionic'])
     url: '/following',
     views: {
       'activity-following': {
-        templateUrl: 'templates/activity-following.html'
+        templateUrl: 'templates/activity-following.html',
+        controller: 'ActivityCtrl'
       }
     }
   })
@@ -84,7 +89,8 @@ angular.module('starter', ['ionic'])
     url: '/you',
     views: {
       'activity-you': {
-        templateUrl: 'templates/activity-you.html'
+        templateUrl: 'templates/activity-you.html',
+        controller: 'ActivityCtrl'
       }
     }
   })
@@ -93,7 +99,8 @@ angular.module('starter', ['ionic'])
     url: '/profile',
     views: {
       'app-profile': {
-        templateUrl: 'templates/app-profile.html'
+        templateUrl: 'templates/app-profile.html',
+        controller: 'ProfileCtrl'
       }
     }
   })
@@ -108,7 +115,8 @@ angular.module('starter', ['ionic'])
     url: '/signin',
     views: {
       'welcome-signin': {
-        templateUrl: 'templates/welcome-signin.html'
+        templateUrl: 'templates/welcome-signin.html',
+        controller: 'WelcomeCtrl'
       }
     }
   })
@@ -117,7 +125,8 @@ angular.module('starter', ['ionic'])
     url: '/signup',
     views: {
       'welcome-signup': {
-        templateUrl: 'templates/welcome-signup.html'
+        templateUrl: 'templates/welcome-signup.html',
+        controller: 'WelcomeCtrl'
       }
     }
   })
