@@ -1,0 +1,1 @@
+angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
