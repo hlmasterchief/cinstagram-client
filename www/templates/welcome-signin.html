@@ -1,20 +1,19 @@
 <ion-view view-title="Cinstagram">
   <ion-nav-title>
-    <img src="/img/Cinstagram.png">
+    <img src="./img/Cinstagram.png">
   </ion-nav-title>
   <ion-content class="padding">
     <form name="signin-form">
       <div class="list">
         <label class="item item-input">
-          <input type="text" placeholder="Username">
+          <input type="text" placeholder="Username" ng-model="user.username">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Password">
+          <input type="text" placeholder="Password" ng-model="user.password">
         </label>
       </div>
 
-      <button type="submit" class="button">Save</button>
-      <a href="#/app/home" class="button button-stable button-block ">Tap me!</a>
+      <button type="submit" class="button button-positive button-block" ng-click="signin()">Submit</button>
     </form>
   </ion-content>
 </ion-view>

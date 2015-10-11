@@ -18,7 +18,8 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.tabs.position('bottom');
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -37,6 +38,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('app.home', {
     url: '/home',
+    cache: false,
     views: {
       'app-home': {
         templateUrl: 'templates/app-home.html',
@@ -113,6 +115,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('welcome.signin', {
     url: '/signin',
+    cache: false,
     views: {
       'welcome-signin': {
         templateUrl: 'templates/welcome-signin.html',
