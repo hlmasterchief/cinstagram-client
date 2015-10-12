@@ -7702,3 +7702,6 @@ a.button {
 
 .tabs-top-home {
   top: 100px; }
+
+.is-liked {
+  color: #CF000F !important; }

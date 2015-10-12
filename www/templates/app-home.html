@@ -6,28 +6,29 @@
     <a class="button button-icon icon ion-ios-chatboxes"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
-    <div class="list card">
-      <div class="item item-divider">Recent Updates</div>
-      <div class="item item-body">
-        <div>
-          There is a fire in <b>sector 3</b>
-        </div>
+    <div class="list card" ng-repeat="post in posts">
+      <div class="item item-avatar">
+        <img src="{{ post.user.avatar }}">
+        <h2>{{ post.user.username }}</h2>
+        <p>{{ post.date }}</p>
       </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Health</div>
+
       <div class="item item-body">
-        <div>
-          You ate an apple today!
-        </div>
+        <img class="full-image" src="{{ post.image }}">
+        <p>
+          <button class="button button-icon" ng-class="checkLike(post._id) ? 'ion-ios-heart is-liked' : 'ion-ios-heart-outline' " ng-click="like(post._id)"></button>
+          <button class="button button-icon ion-ios-chatbubble-outline"></button>
+          <button class="button button-icon ion-ios-email-outline"></button>
+          <button class="button button-icon ion-ios-more-outline"></button>
+        </p>
       </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Upcoming</div>
+
       <div class="item item-body">
-        <div>
-          You have <b>29</b> meetings on your calendar tomorrow.
-        </div>
+        <p><button class="button button-icon ion-ios-heart"> {{ post.like }}</button></p>
+        <p><b>{{ post.user.username }}</b> {{ post.caption }}</p>
+        <p><b>Username</b> Many components in Ionic purposely have both padding and margin reset set to zero. In many instances apps will have components bleed to the edge of the screen, and by starting each component at zero developers can easily control padding and margins throughout the app.</p>
+        <p><b>Username</b> Comment</p>
+        <p><input type="text" placeholder="Add a comment"></p>
       </div>
     </div>
     <button type="submit" class="button button-positive button-block" ng-click="signout()">Sign out</button>

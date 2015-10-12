@@ -43,7 +43,7 @@ angular.module('cinstagram.controllers', [])
     $scope.check();
 })
 
-.controller('HomeCtrl', function($scope, $state, $ionicPopup, AuthService) {
+.controller('HomeCtrl', function($scope, $state, $ionicPopup, AuthService, PostService) {
     $scope.signout = function() {
         AuthService.signout()
             .then(function(res) {
@@ -54,6 +54,28 @@ angular.module('cinstagram.controllers', [])
                     template: err.message
                 });
             });
+    };
+
+    $scope.checkHome = function () {
+        PostService.checkHome()
+            .then(function(res) {
+                $scope.posts = res.posts;
+            }, function(err) {
+
+            });
+    };
+
+    $scope.like = function (id) {
+        PostService.like(id)
+            .then(function(res) {
+                console.log(res);
+            }, function(err) {
+
+            });
+    };
+
+    $scope.checkLike = function (id) {
+        return PostService.checkLike(id);
     };
 
     $scope.check = function () {
@@ -70,6 +92,7 @@ angular.module('cinstagram.controllers', [])
     };
 
     $scope.check();
+    $scope.checkHome();
 })
 
 .controller('SearchCtrl', function($scope) {
