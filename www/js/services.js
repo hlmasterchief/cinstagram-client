@@ -47,6 +47,20 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         });
     };
 
+    var check = function(data) {
+        return $q(function(resolve, reject) {
+            $http.get(URL.base + URL.authenticate)
+                .success(function(res) {
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    destroyLocalToken();
+                    reject(err);
+                });
+        });
+    };
+
     var destroyLocalToken = function() {
         user = undefined;
         $http.defaults.headers.common['x-access-token'] = undefined;
@@ -80,6 +94,7 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         signin: signin,
         signup: signup,
         signout: signout,
+        check: check,
         user: user
     };
 })

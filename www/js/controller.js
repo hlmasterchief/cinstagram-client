@@ -30,13 +30,23 @@ angular.module('cinstagram.controllers', [])
                 });
             });
     };
+
+    $scope.check = function () {
+        AuthService.check()
+            .then(function(res) {
+                $state.go('app.home', {}, {reload: true});
+            }, function(err) {
+
+            });
+    };
+
+    $scope.check();
 })
 
 .controller('HomeCtrl', function($scope, $state, $ionicPopup, AuthService) {
     $scope.signout = function() {
         AuthService.signout()
             .then(function(res) {
-                // console.log(AuthService.user);
                 $state.go('welcome.signin', {}, {reload: true});
             }, function(err) {
                 $ionicPopup.alert({
@@ -45,6 +55,21 @@ angular.module('cinstagram.controllers', [])
                 });
             });
     };
+
+    $scope.check = function () {
+        AuthService.check()
+            .then(function(res) {
+
+            }, function(err) {
+                $ionicPopup.alert({
+                    title: 'Token Failed',
+                    template: err.message
+                });
+                $state.go('welcome.signin', {}, {reload: true});
+            });
+    };
+
+    $scope.check();
 })
 
 .controller('SearchCtrl', function($scope) {
