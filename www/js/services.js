@@ -86,6 +86,7 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
     var useLocalToken = function(token, usr) {
         $http.defaults.headers.common['x-access-token'] = token;
         user = JSON.parse(usr);
+        console.log(user);
     };
 
     loadLocalToken();
@@ -107,6 +108,7 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
             $http.get(URL.base + URL.posts + '/all')
                 .success(function(res) {
                     posts = res.posts;
+                    console.log(posts);
                     resolve(res);
                 })
 
@@ -125,31 +127,33 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         return post;
     }
 
-    var checkLike = function(id) {
-        var post = findPost(id);
+    var checkLike = function(post) {
+        // console.log(AuthService.user._id);
         for (var i = 0; i < post['likes'].length; i++) {
-            if (post['likes'][i] === AuthService.user._id) {
+            if (post.likes[i]._id === AuthService.user._id) {
+                // console.log(post.likes[i]._id);
                 return true;
             }
-            return false;
         }
         return false;
-    };
+    }
 
     var like = function(id) {
-        var post = findPost(id);
-        if (post['likes'].indexOf(AuthService.user._id) > -1) {
-            var index = post['likes'].indexOf(AuthService.user._id);
-
-            post['likes'].splice(index, 1);
-            post['like'] -= 1;
-        } else {
-            post['likes'].push(AuthService.user._id);
-            post['like'] += 1;
-        }
-
         return $q(function(resolve, reject) {
             $http.put(URL.base + URL.posts + "/" + id + '/like')
+                .success(function(res) {
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var comment = function(id, data) {
+        return $q(function(resolve, reject) {
+            $http.post(URL.base + URL.posts + "/" + id + URL.comments, data)
                 .success(function(res) {
                     resolve(res);
                 })
@@ -164,5 +168,6 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         checkHome: checkHome,
         checkLike: checkLike,
         like: like,
+        comment: comment
     };
 })

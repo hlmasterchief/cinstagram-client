@@ -126,6 +126,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('welcome.signup', {
     url: '/signup',
+    cache: false,
     views: {
       'welcome-signup': {
         templateUrl: 'templates/welcome-signup.html',

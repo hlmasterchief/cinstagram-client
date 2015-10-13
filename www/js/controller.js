@@ -10,6 +10,9 @@ angular.module('cinstagram.controllers', [])
     $scope.signin = function() {
         AuthService.signin($scope.user)
             .then(function(res) {
+                console.log(AuthService.user);
+                AuthService.user = res.user;
+                console.log(AuthService.user);
                 $state.go('app.home', {}, {reload: true});
             }, function(err) {
                 $ionicPopup.alert({
@@ -56,6 +59,15 @@ angular.module('cinstagram.controllers', [])
             });
     };
 
+    $scope.viewMore = function (post) {
+        if (post.limit.post==-3) {
+            post.limit.post = Infinity;
+        }
+        else {
+            post.limit.post = -3;
+        }
+    };
+
     $scope.checkHome = function () {
         PostService.checkHome()
             .then(function(res) {
@@ -68,14 +80,33 @@ angular.module('cinstagram.controllers', [])
     $scope.like = function (id) {
         PostService.like(id)
             .then(function(res) {
+                $scope.checkHome();
                 console.log(res);
             }, function(err) {
 
             });
     };
 
-    $scope.checkLike = function (id) {
-        return PostService.checkLike(id);
+    $scope.checkLike = function (post) {
+        // console.log(PostService.checkLike(post));
+        return PostService.checkLike(post);
+    };
+
+    $scope.input = {
+        text: ""
+    };
+
+    $scope.comment = function(post) {
+        PostService.comment(post._id, post.input)
+            .then(function(res) {
+                $scope.checkHome();
+                console.log(res);
+            }, function(err) {
+                $ionicPopup.alert({
+                    title: 'Comment Failed',
+                    template: err.message
+                });
+            });
     };
 
     $scope.check = function () {
@@ -91,6 +122,7 @@ angular.module('cinstagram.controllers', [])
             });
     };
 
+    console.log(AuthService.user);
     $scope.check();
     $scope.checkHome();
 })
