@@ -86,7 +86,6 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
     var useLocalToken = function(token, usr) {
         $http.defaults.headers.common['x-access-token'] = token;
         user = JSON.parse(usr);
-        console.log(user);
     };
 
     loadLocalToken();
@@ -103,12 +102,25 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
 .factory('PostService', function($q, $http, URL, AuthService) {
     var posts;
 
-    var checkHome = function(data) {
+    var checkHome = function() {
         return $q(function(resolve, reject) {
             $http.get(URL.base + URL.posts + '/all')
                 .success(function(res) {
                     posts = res.posts;
-                    console.log(posts);
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var checkPost = function(id) {
+        return $q(function(resolve, reject) {
+            $http.get(URL.base + URL.users + '/' + id + '/' + URL.posts)
+                .success(function(res) {
+                    posts = res.posts;
                     resolve(res);
                 })
 
@@ -127,30 +139,6 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         return post;
     }
 
-    var checkLike = function(post) {
-        // console.log(AuthService.user._id);
-        for (var i = 0; i < post['likes'].length; i++) {
-            if (post.likes[i]._id === AuthService.user._id) {
-                // console.log(post.likes[i]._id);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    var like = function(id) {
-        return $q(function(resolve, reject) {
-            $http.put(URL.base + URL.posts + "/" + id + '/like')
-                .success(function(res) {
-                    resolve(res);
-                })
-
-                .error(function(err) {
-                    reject(err);
-                });
-        });
-    };
-
     var comment = function(id, data) {
         return $q(function(resolve, reject) {
             $http.post(URL.base + URL.posts + "/" + id + URL.comments, data)
@@ -166,8 +154,92 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
 
     return {
         checkHome: checkHome,
-        checkLike: checkLike,
-        like: like,
+        checkPost: checkPost,
         comment: comment
+    };
+})
+
+.factory('ProfileService', function($q, $http, URL, AuthService) {
+
+    var checkProfile = function(id) {
+        return $q(function(resolve, reject) {
+            $http.get(URL.base + URL.users + '/' + id)
+                .success(function(res) {
+                    profile = res.profile;
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    return {
+        checkProfile: checkProfile
+    };
+
+})
+
+.factory('FollowService', function($q, $http, URL, AuthService) {
+
+    var follow = function(id) {
+        return $q(function(resolve, reject) {
+            $http.put(URL.base + URL.users + "/" + id + '/follow')
+                .success(function(res) {
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var checkFollow = function(profile) {
+        for (var i = 0; i < profile.followers.length; i++) {
+            if (profile.followers[i]._id === AuthService.user._id) {
+                return true;
+            }
+            if (profile.followers[i] === AuthService.user._id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return {
+        follow: follow,
+        checkFollow: checkFollow
+    };
+})
+
+
+.factory('LikeService', function($q, $http, URL, AuthService) {
+    var like = function(id) {
+        return $q(function(resolve, reject) {
+            $http.put(URL.base + URL.posts + "/" + id + '/like')
+                .success(function(res) {
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var checkLike = function(post) {
+        for (var i = 0; i < post['likes'].length; i++) {
+            if (post.likes[i]._id === AuthService.user._id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return {
+        like: like,
+        checkLike: checkLike
     };
 })

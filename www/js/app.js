@@ -47,8 +47,42 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
     }
   })
 
+  .state('app.home-profile', {
+    url: '/home-profile/:id',
+    cache: false,
+    views: {
+      'app-home': {
+        templateUrl: 'templates/app-profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.home-profile-followers', {
+    url: '/home-profile-followers/:id',
+    cache: false,
+    views: {
+      'app-home': {
+        templateUrl: 'templates/app-profile-followers.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.home-profile-followings', {
+    url: '/home-profile-followings/:id',
+    cache: false,
+    views: {
+      'app-home': {
+        templateUrl: 'templates/app-profile-followings.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
   .state('app.search', {
     url: '/search',
+    cache: false,
     views: {
       'app-search': {
         templateUrl: 'templates/app-search.html',
@@ -59,6 +93,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('app.camera', {
     url: '/camera',
+    cache: false,
     views: {
       'app-camera': {
         templateUrl: 'templates/app-camera.html',
@@ -69,6 +104,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('app.activity', {
     url: '/activity',
+    cache: false,
     views: {
       'app-activity': {
         templateUrl: 'templates/app-activity.html',
@@ -79,6 +115,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('app.activity.following', {
     url: '/following',
+    cache: false,
     views: {
       'activity-following': {
         templateUrl: 'templates/activity-following.html',
@@ -89,6 +126,7 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('app.activity.you', {
     url: '/you',
+    cache: false,
     views: {
       'activity-you': {
         templateUrl: 'templates/activity-you.html',
@@ -99,9 +137,43 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
 
   .state('app.profile', {
     url: '/profile',
+    cache: false,
     views: {
       'app-profile': {
         templateUrl: 'templates/app-profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.profile-profile', {
+    url: '/profile-profile/:id',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.profile-followers', {
+    url: '/profile-followers/:id',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-profile-followers.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.profile-followings', {
+    url: '/profile-followings/:id',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-profile-followings.html',
         controller: 'ProfileCtrl'
       }
     }

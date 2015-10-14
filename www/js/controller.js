@@ -46,7 +46,7 @@ angular.module('cinstagram.controllers', [])
     $scope.check();
 })
 
-.controller('HomeCtrl', function($scope, $state, $ionicPopup, AuthService, PostService) {
+.controller('HomeCtrl', function($scope, $state, $ionicPopup, AuthService, PostService, LikeService) {
     $scope.signout = function() {
         AuthService.signout()
             .then(function(res) {
@@ -61,7 +61,7 @@ angular.module('cinstagram.controllers', [])
 
     $scope.viewMore = function (post) {
         if (post.limit.post==-3) {
-            post.limit.post = Infinity;
+            post.limit.post = Infinity; 
         }
         else {
             post.limit.post = -3;
@@ -78,18 +78,16 @@ angular.module('cinstagram.controllers', [])
     };
 
     $scope.like = function (id) {
-        PostService.like(id)
+        LikeService.like(id)
             .then(function(res) {
                 $scope.checkHome();
-                console.log(res);
             }, function(err) {
 
             });
     };
 
     $scope.checkLike = function (post) {
-        // console.log(PostService.checkLike(post));
-        return PostService.checkLike(post);
+        return LikeService.checkLike(post);
     };
 
     $scope.input = {
@@ -100,7 +98,6 @@ angular.module('cinstagram.controllers', [])
         PostService.comment(post._id, post.input)
             .then(function(res) {
                 $scope.checkHome();
-                console.log(res);
             }, function(err) {
                 $ionicPopup.alert({
                     title: 'Comment Failed',
@@ -122,7 +119,6 @@ angular.module('cinstagram.controllers', [])
             });
     };
 
-    console.log(AuthService.user);
     $scope.check();
     $scope.checkHome();
 })
@@ -139,6 +135,100 @@ angular.module('cinstagram.controllers', [])
 
 })
 
-.controller('ProfileCtrl', function($scope) {
+.controller('ProfileCtrl', function($scope, $state, $stateParams, $ionicPopup, AuthService, PostService, ProfileService, FollowService, LikeService) {
+    var profile_id = $stateParams.id || AuthService.user._id;
 
+    $scope.isMine = function(id) {
+        if (id === AuthService.user._id) {
+            return true;
+        }
+        return false;
+    }
+
+    $scope.isFollowing = function(profile) {
+        if (profile) {
+           return FollowService.checkFollow(profile); 
+        }
+        return false;
+    }
+
+    $scope.follow = function (id) {
+        FollowService.follow(id)
+            .then(function(res) {
+                $scope.checkProfile(profile_id);
+            }, function(err) {
+
+            });
+    };
+
+    $scope.checkProfile = function (id) {
+        ProfileService.checkProfile(id)
+            .then(function(res) {
+                $scope.profile = res.profile;
+            }, function(err) {
+
+            });
+    };
+
+    $scope.checkPost = function (id) {
+        PostService.checkPost(id)
+            .then(function(res) {
+                $scope.refresh();
+                $scope.posts = res.posts;
+            }, function(err) {
+
+            });
+    };
+
+    $scope.viewMore = function (post) {
+        if (post.limit.post==-3) {
+            post.limit.post = Infinity; 
+        }
+        else {
+            post.limit.post = -3;
+        }
+    };
+
+    $scope.like = function (id) {
+        LikeService.like(id)
+            .then(function(res) {
+                $scope.checkPost(profile_id);
+            }, function(err) {
+
+            });
+    };
+
+    $scope.checkLike = function (post) {
+        return LikeService.checkLike(post);
+    };
+
+    $scope.comment = function(post) {
+        PostService.comment(post._id, post.input)
+            .then(function(res) {
+                $scope.checkPost(profile_id);
+            }, function(err) {
+                $ionicPopup.alert({
+                    title: 'Comment Failed',
+                    template: err.message
+                });
+            });
+    };
+
+    $scope.refresh = function () {
+
+    };
+
+    $scope.prefix = "profile-";
+
+    if ($state.current.name === "app.home-profile-followers"
+        || $state.current.name === "app.home-profile-followings") {
+        $scope.prefix = "home-";
+    }
+
+    if ($state.current.name === "app.home-profile") {
+        $scope.prefix = "home-profile-";
+    }
+
+    $scope.checkProfile(profile_id);
+    $scope.checkPost(profile_id);
 });
