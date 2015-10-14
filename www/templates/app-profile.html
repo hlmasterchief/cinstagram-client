@@ -7,7 +7,6 @@
     <div class="item item-avatar">
       <img ng-src="{{ profile.avatar }}">
       <div class="row">
-          <div class="col"><h2><b>{{ profile.username }}</b></h2></div>
           <div class="col"><h2><b>{{ profile.posts.length }}</b></h2><p>posts</p></div>
           <div class="col"><a href="#/app/{{ prefix }}followers/{{ profile._id }}"><h2><b>{{ profile.followers.length }}</b></h2><p>followers</p></a></div>
           <div class="col"><a href="#/app/{{ prefix }}followings/{{ profile._id }}"><h2><b>{{ profile.followings.length }}</b></h2><p>following</p></a></div>

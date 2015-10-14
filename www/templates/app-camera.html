@@ -1,4 +1,23 @@
 <ion-view view-title="Camera">
   <ion-content class="padding">
+    <div class="list">
+        <div class="item">
+            <img ng-src="{{ image }} "class="full-image"/>
+            <div class="button-bar">
+              <button class="button" ng-click="camera()">From Camera</button>
+              <button class="button" ng-click="galery()">From Gallery</button>
+            </div>
+        </div>
+
+        <label class="item item-input">
+				    <textarea placeholder="Caption" ng-model="data.caption"></textarea>
+				</label>
+
+        <div class="item">
+            <button ng-click="post()" ng-disabled="!isShow()" class="button button-block button-positive">
+                Post
+            </button>
+        </div>
+    </div>
   </ion-content>
 </ion-view>

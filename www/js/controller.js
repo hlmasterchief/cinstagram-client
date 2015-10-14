@@ -127,8 +127,67 @@ angular.module('cinstagram.controllers', [])
 
 })
 
-.controller('CameraCtrl', function($scope) {
+.controller('CameraCtrl', function($scope, $state, $ionicPopup, $cordovaCamera, $cordovaImagePicker, PostService) {
+        $scope.image = "";
+        $scope.data = {};
 
+        $scope.isShow = function() {
+            if ($scope.img !== "") {
+                return true;
+            }
+            return false;
+        };
+
+        $scope.galery = function() {
+            var options = {
+                maximumImagesCount: 1,
+                width: 1200,
+                height: 0,
+                quality: 80
+            };
+
+            $cordovaImagePicker.getPictures(options)
+                .then(function(results) {
+                    $scope.image = results[0];
+                }, function(err) {
+                    $ionicPopup.alert({
+                        title: 'Try again',
+                        template: 'Image pick failed.'
+                    });
+                });
+        };
+
+        $scope.camera = function() {
+            var options = {
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                quality: 80,
+                targetWidth: 1200,
+                targetHeight: 1200,
+                correctOrientation: true
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageURI) {
+                $scope.image = imageURI;
+            }, function(err) {
+                $ionicPopup.alert({
+                    title: 'Try again',
+                    template: 'Image capture failed.'
+                });
+            });
+        };
+
+        $scope.post = function() {
+            PostService.postPost($scope.image, $scope.data)
+                .then(function(res) {
+                    $state.go('app.home', {}, {reload: true});
+                }, function(err) {
+                    $ionicPopup.alert({
+                        title: 'Try again',
+                        template: 'Post failed.'
+                    });
+                });
+        };
 })
 
 .controller('ActivityCtrl', function($scope) {

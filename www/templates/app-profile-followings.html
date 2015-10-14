@@ -4,7 +4,6 @@
       <img ng-src="{{ following.avatar }}">
       <div class="row">
         <div class="col"><a href="#/app/{{ prefix }}profile/{{ following._id }}"><h2><b>{{ following.username }}</b></h2></a></div>
-        <div class="col"></div>
         <div class="col">
           <button ng-show="!isMine(following._id) && isFollowing(following)" class="button button-block ion-checkmark-round button-balanced" ng-click="follow(following._id)"> FOLLOWING</button>
           <button ng-show="!isMine(following._id) && !isFollowing(following)" class="button button-block ion-plus-round button-stable" ng-click="follow(following._id)"> FOLLOW</button>

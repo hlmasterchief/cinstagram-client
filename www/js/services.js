@@ -99,7 +99,7 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
     };
 })
 
-.factory('PostService', function($q, $http, URL, AuthService) {
+.factory('PostService', function($q, $http, URL, AuthService, $cordovaFileTransfer) {
     var posts;
 
     var checkHome = function() {
@@ -152,9 +152,31 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         });
     };
 
+    var postPost = function(image, data) {
+        var options = {
+            fileKey: 'image',
+            params: data,
+            headers: {
+                "x-access-token": $http.defaults.headers.common['x-access-token']
+            }
+        };
+
+        return $q(function(resolve, reject) {
+            $cordovaFileTransfer.upload(encodeURI(URL.base + URL.posts), image, options, true)
+                .then(function(res) {
+                    resolve(res);
+                }, function(err) {
+                    reject(err);
+                }, function(progress) {
+
+                });
+        });
+    };
+
     return {
         checkHome: checkHome,
         checkPost: checkPost,
+        postPost: postPost,
         comment: comment
     };
 })
