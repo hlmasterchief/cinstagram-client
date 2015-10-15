@@ -80,6 +80,50 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
     }
   })
 
+  .state('app.discover', {
+    url: '/discover',
+    cache: false,
+    views: {
+      'app-search': {
+        templateUrl: 'templates/app-discover.html',
+        controller: 'SearchCtrl'
+      }
+    }
+  })
+
+  .state('app.discover-profile', {
+    url: '/discover-profile/:id',
+    cache: false,
+    views: {
+      'app-search': {
+        templateUrl: 'templates/app-profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.discover-profile-followers', {
+    url: '/discover-profile-followers/:id',
+    cache: false,
+    views: {
+      'app-search': {
+        templateUrl: 'templates/app-profile-followers.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.discover-profile-followings', {
+    url: '/discover-profile-followings/:id',
+    cache: false,
+    views: {
+      'app-search': {
+        templateUrl: 'templates/app-profile-followings.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
   .state('app.search', {
     url: '/search',
     cache: false,

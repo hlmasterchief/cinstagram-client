@@ -61,15 +61,6 @@ angular.module('cinstagram.controllers', [])
     promise();
 
     var others = function () {
-        $scope.viewMore = function (post) {
-            if (post.limit.post==-3) {
-                post.limit.post = Infinity; 
-            }
-            else {
-                post.limit.post = -3;
-            }
-        };
-
         $scope.checkHome = function () {
             PostService.checkHome()
                 .then(function(res) {
@@ -77,6 +68,15 @@ angular.module('cinstagram.controllers', [])
                 }, function(err) {
 
                 });
+        };
+
+        $scope.viewMore = function (post) {
+            if (post.limit.post==-3) {
+                post.limit.post = Infinity; 
+            }
+            else {
+                post.limit.post = -3;
+            }
         };
 
         $scope.like = function (id) {
@@ -90,10 +90,6 @@ angular.module('cinstagram.controllers', [])
 
         $scope.checkLike = function (post) {
             return LikeService.checkLike(post);
-        };
-
-        $scope.input = {
-            text: ""
         };
 
         $scope.comment = function(post) {
@@ -112,7 +108,7 @@ angular.module('cinstagram.controllers', [])
     }
 })
 
-.controller('SearchCtrl', function($scope, $state, $ionicPopup, AuthService) {
+.controller('SearchCtrl', function($scope, $state, $ionicPopup, AuthService, PostService, LikeService) {
     var promise = function () {
         AuthService.check()
             .then(function(res) {
@@ -129,7 +125,50 @@ angular.module('cinstagram.controllers', [])
     promise();
 
     var others = function () {
-        
+        $scope.checkDiscover = function () {
+            PostService.checkDiscover()
+                .then(function(res) {
+                    $scope.posts = res.posts;
+                }, function(err) {
+
+                });
+        };
+
+        $scope.viewMore = function (post) {
+            if (post.limit.post==-3) {
+                post.limit.post = Infinity; 
+            }
+            else {
+                post.limit.post = -3;
+            }
+        };
+
+        $scope.like = function (id) {
+            LikeService.like(id)
+                .then(function(res) {
+                    $scope.checkDiscover();
+                }, function(err) {
+
+                });
+        };
+
+        $scope.checkLike = function (post) {
+            return LikeService.checkLike(post);
+        };
+
+        $scope.comment = function(post) {
+            PostService.comment(post._id, post.input)
+                .then(function(res) {
+                    $scope.checkDiscover();
+                }, function(err) {
+                    $ionicPopup.alert({
+                        title: 'Comment Failed',
+                        template: err.message
+                    });
+                });
+        };
+
+        $scope.checkDiscover();
     }
 })
 
@@ -427,8 +466,17 @@ angular.module('cinstagram.controllers', [])
             $scope.prefix = "home-";
         }
 
+        if ($state.current.name === "app.discover-profile-followers"
+            || $state.current.name === "app.discover-profile-followings") {
+            $scope.prefix = "discover-";
+        }
+
         if ($state.current.name === "app.home-profile") {
             $scope.prefix = "home-profile-";
+        }
+
+        if ($state.current.name === "app.discover-profile") {
+            $scope.prefix = "discover-profile-";
         }
 
         $scope.checkProfile(profile_id);

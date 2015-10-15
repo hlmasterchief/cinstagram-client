@@ -196,6 +196,7 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
 
     return {
         checkHome: checkHome,
+        checkDiscover: checkDiscover,
         checkPost: checkPost,
         postPost: postPost,
         comment: comment
