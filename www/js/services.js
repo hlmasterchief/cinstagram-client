@@ -111,6 +111,20 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
 
     var checkHome = function() {
         return $q(function(resolve, reject) {
+            $http.get(URL.base + URL.posts + '/feed')
+                .success(function(res) {
+                    posts = res.posts;
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var checkDiscover = function() {
+        return $q(function(resolve, reject) {
             $http.get(URL.base + URL.posts + '/all')
                 .success(function(res) {
                     posts = res.posts;
