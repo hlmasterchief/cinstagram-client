@@ -1,28 +1,15 @@
-<ion-view view-title="Search">
+<ion-view view-title="SEARCH">
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Search User" ng-model="search.searchKey">
         </label>
-        <button class="button button-small">
-          Submit
-        </button>
+        <button class="button button-small icon ion-ios-search-strong" ng-click="searchUser()"></button>
       </div>
-      <div class="item item-avatar">
-        <img src="mcfly.jpg">
-        <h2>Marty McFly</h2>
-        <p>November 05, 1955</p>
-      </div>
-      <div class="item item-avatar">
-        <img src="mcfly.jpg">
-        <h2>Marty McFly</h2>
-        <p>November 05, 1955</p>
-      </div>
-      <div class="item item-avatar">
-        <img src="mcfly.jpg">
-        <h2>Marty McFly</h2>
-        <p>November 05, 1955</p>
+      <div class="item item-avatar" ng-repeat="user in users">
+          <img ng-src="{{user.avatar}}">
+          <a href="#/app/discover-profile/{{user._id}}" class="a-username">{{user.username}}</a>
       </div>
     </div>
   </ion-content>

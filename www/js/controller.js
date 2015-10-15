@@ -108,7 +108,7 @@ angular.module('cinstagram.controllers', [])
     }
 })
 
-.controller('SearchCtrl', function($scope, $state, $ionicPopup, AuthService, PostService, LikeService) {
+.controller('SearchCtrl', function($scope, $state, $ionicPopup, AuthService, PostService, LikeService, SearchService) {
     var promise = function () {
         AuthService.check()
             .then(function(res) {
@@ -163,6 +163,29 @@ angular.module('cinstagram.controllers', [])
                 }, function(err) {
                     $ionicPopup.alert({
                         title: 'Comment Failed',
+                        template: err.message
+                    });
+                });
+        };
+
+        $scope.search = {
+            searchKey: ""
+        };
+
+        $scope.searchUser = function() {
+            SearchService.searchUser($scope.search)
+                .then(function(res) {
+                    if (res.length === 0) {
+                        $ionicPopup.alert({
+                            title: 'Try again',
+                            template: 'Nothing Found.'
+                        });
+                        return;
+                    }
+                    $scope.users = res;
+                }, function(err) {
+                    $ionicPopup.alert({
+                        title: 'Search Failed',
                         template: err.message
                     });
                 });

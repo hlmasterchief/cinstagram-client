@@ -106,6 +106,27 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
     };
 })
 
+.factory('SearchService', function($q, $http, URL) {
+    var searchUser = function(data) {
+        return $q(function(resolve, reject) {
+            console.log(data);
+            $http.post(URL.base + URL.users + "/search", data)
+                .success(function(res) {
+                    console.log(res);
+                    resolve(res.users);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    return {
+        searchUser: searchUser
+    };
+})
+
 .factory('PostService', function($q, $http, URL, AuthService, $cordovaFileTransfer) {
     var posts;
 
