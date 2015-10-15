@@ -146,6 +146,50 @@ angular.module('cinstagram', ['ionic', 'cinstagram.controllers', 'cinstagram.ser
     }
   })
 
+  .state('app.profile-edit', {
+    url: '/profile-edit',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-profile-edit.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.profile-avatar', {
+    url: '/profile-avatar',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-profile-avatar.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.profile-password', {
+    url: '/profile-password',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-profile-password.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
+  .state('app.setting', {
+    url: '/setting',
+    cache: false,
+    views: {
+      'app-profile': {
+        templateUrl: 'templates/app-setting.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+
   .state('app.profile-profile', {
     url: '/profile-profile/:id',
     cache: false,

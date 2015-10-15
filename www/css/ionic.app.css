@@ -9291,4 +9291,11 @@ a.button {
   top: 100px; }
 
 .is-liked {
-  color: #CF000F !important; }
+  color: #F22613; }
+
+a {
+  text-decoration: none; }
+
+.a-username {
+  color: #4183D7;
+  font-weight: bold; }

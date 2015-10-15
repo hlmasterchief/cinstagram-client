@@ -1,0 +1,17 @@
+<ion-view view-title="EDIT PROFILE">
+  <ion-nav-buttons side="secondary">
+    <a class="button button-icon icon ion-checkmark-round" ng-click="update(data_profile)"></a>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <div class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Email</span>
+        <input type="text" ng-model="data_profile.email">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Username</span>
+        <input type="text" ng-model="data_profile.username">
+      </label>
+    </div>
+  </ion-content>
+</ion-view>

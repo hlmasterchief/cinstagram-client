@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>{{ profile.username }}</ion-nav-title>
   <ion-nav-buttons side="secondary">
-    <a class="button button-icon icon ion-gear-a"></a>
+    <a class="button button-icon icon ion-gear-a" href="#/app/setting"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
     <div class="item item-avatar">
@@ -11,14 +11,14 @@
           <div class="col"><a href="#/app/{{ prefix }}followers/{{ profile._id }}"><h2><b>{{ profile.followers.length }}</b></h2><p>followers</p></a></div>
           <div class="col"><a href="#/app/{{ prefix }}followings/{{ profile._id }}"><h2><b>{{ profile.followings.length }}</b></h2><p>following</p></a></div>
       </div>
-      <a href="#"><button ng-show="isMine(profile._id)" class="button button-block button-stable">Edit your profile</button></a>
+      <a href="#/app/profile-edit"><button ng-show="isMine(profile._id)" class="button button-block button-stable">Edit your profile</button></a>
       <button ng-show="!isMine(profile._id) && isFollowing(profile)" class="button button-block ion-checkmark-round button-balanced" ng-click="follow(profile._id)"> FOLLOWING</button>
       <button ng-show="!isMine(profile._id) && !isFollowing(profile)" class="button button-block ion-plus-round button-stable" ng-click="follow(profile._id)"> FOLLOW</button>
     </div>
-    <div class="list card" ng-repeat="post in posts">
+    <div class="list card" ng-repeat="post in posts | limitTo: 10">
       <div class="item item-avatar">
         <img ng-src="{{ post.user.avatar }}">
-        <h2><b>{{ post.user.username }}</b></h2>
+        <span  class="a-username">{{ post.user.username }}</span>
         <p>{{ post.date }}</p>
       </div>
 
@@ -35,12 +35,12 @@
       <div class="item item-body">
           <p>
             <i class="icon ion-ios-heart"><b> {{ post.likes.length }}</b></i>
-            <b ng-repeat="like in post.likes"> {{ like.username }},</b>
+            <span ng-repeat="like in post.likes" class="a-username"> {{ like.username }},</span>
           </p>
-          <p><b>{{ post.user.username }}</b> {{ post.caption }}</p>
-          <p ng-click="viewMore(post)">View all {{ post.comments.length }} comments</p>
+          <p ng-if="post.caption !== ''"><span class="a-username">{{ post.user.username }}</span> {{ post.caption }}</p>
+          <p ng-if="post.comments.length > 3" ng-click="viewMore(post)">View all {{ post.comments.length }} comments</p>
           <div ng-repeat="comment in post.comments | limitTo:post.limit.post = post.limit.post ? post.limit.post : -3 ">
-            <p><b>{{ comment.user.username }}</b> {{ comment.text }}</p>
+            <p><span class="a-username">{{ comment.user.username }}</span> {{ comment.text }}</p>
           </div>
           <div class="item-input-inset">
             <label class="item-input-wrapper">

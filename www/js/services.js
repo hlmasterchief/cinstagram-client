@@ -47,10 +47,12 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         });
     };
 
-    var check = function(data) {
+    var check = function() {
         return $q(function(resolve, reject) {
             $http.get(URL.base + URL.authenticate)
                 .success(function(res) {
+                    reloadUser(JSON.stringify(res.user));
+                    console.log(res.user);
                     resolve(res);
                 })
 
@@ -85,6 +87,11 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
 
     var useLocalToken = function(token, usr) {
         $http.defaults.headers.common['x-access-token'] = token;
+        user = JSON.parse(usr);
+    };
+
+    var reloadUser = function(usr) {
+        window.localStorage.setItem(LOCAL_USER_KEY, usr);
         user = JSON.parse(usr);
     };
 
@@ -181,7 +188,7 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
     };
 })
 
-.factory('ProfileService', function($q, $http, URL, AuthService) {
+.factory('ProfileService', function($q, $http, URL, AuthService, $cordovaFileTransfer) {
 
     var checkProfile = function(id) {
         return $q(function(resolve, reject) {
@@ -197,8 +204,44 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
         });
     };
 
+    var update = function(data) {
+        return $q(function(resolve, reject) {
+            $http.put(URL.base + URL.users, data)
+                .success(function(res) {
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var updateAvatar = function(avatar) {
+        var options = {
+            httpMethod: 'PUT',
+            fileKey: 'avatar',
+            headers: {
+                "x-access-token": $http.defaults.headers.common['x-access-token']
+            }
+        };
+
+        return $q(function(resolve, reject) {
+            $cordovaFileTransfer.upload(encodeURI(URL.base + URL.users), avatar, options, true)
+                .then(function(res) {
+                    resolve(res);
+                }, function(err) {
+                    reject(err);
+                }, function(progress) {
+
+                });
+        });
+    };
+
     return {
-        checkProfile: checkProfile
+        checkProfile: checkProfile,
+        updateAvatar: updateAvatar,
+        update: update
     };
 
 })

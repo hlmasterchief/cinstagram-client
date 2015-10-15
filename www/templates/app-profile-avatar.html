@@ -1,0 +1,19 @@
+<ion-view view-title="CHANGE AVATAR">
+  <ion-content class="padding">
+    <div class="list">
+        <div class="item">
+            <img ng-src="{{ avatar }} "class="full-image"/>
+            <div class="button-bar">
+              <button class="button" ng-click="camera()">From Camera</button>
+              <button class="button" ng-click="galery()">From Gallery</button>
+            </div>
+        </div>
+
+        <div class="item">
+            <button ng-click="updateAvatar()" ng-disabled="!isShow()" class="button button-block button-positive">
+                Save
+            </button>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

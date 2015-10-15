@@ -6,12 +6,10 @@
     <a class="button button-icon icon ion-ios-chatboxes"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
-
-    <button type="submit" class="button button-positive button-block" ng-click="signout()">Sign out</button>
-    <div class="list card" ng-repeat="post in posts">
+    <div class="list card" ng-repeat="post in posts | limitTo: 10">
       <div class="item item-avatar">
         <img ng-src="{{ post.user.avatar }}">
-        <a href ="#/app/home-profile/{{ post.user._id }}"><h2><b>{{ post.user.username }}</b></h2></a>
+        <a href ="#/app/home-profile/{{ post.user._id }}" class="a-username">{{ post.user.username }}</a>
         <p>{{ post.date }}</p>
       </div>
 
@@ -28,12 +26,12 @@
       <div class="item item-body">
           <p>
             <i class="icon ion-ios-heart"><b> {{ post.likes.length }}</b></i>
-            <b ng-repeat="like in post.likes"> {{ like.username }},</b>
+            <a href ="#/app/home-profile/{{ like._id }}" ng-repeat="like in post.likes" class="a-username"> {{ like.username }},</a>
           </p>
-          <p><a href ="#/app/home-profile/{{ post.user._id }}"><b>{{ post.user.username }}</b></a> {{ post.caption }}</p>
-          <p ng-click="viewMore(post)">View all {{ post.comments.length }} comments</p>
+          <p ng-if="post.caption !== ''"><a href ="#/app/home-profile/{{ post.user._id }}" class="a-username">{{ post.user.username }}</a> {{ post.caption }}</p>
+          <p ng-if="post.comments.length > 3" ng-click="viewMore(post)">View all {{ post.comments.length }} comments</p>
           <div ng-repeat="comment in post.comments | limitTo:post.limit.post = post.limit.post ? post.limit.post : -3 ">
-            <p><a href ="#/app/home-profile/{{ comment.user._id }}"><b>{{ comment.user.username }}</b></a> {{ comment.text }}</p>
+            <p><a href ="#/app/home-profile/{{ comment.user._id }}" class="a-username">{{ comment.user.username }}</a> {{ comment.text }}</p>
           </div>
           <div class="item-input-inset">
             <label class="item-input-wrapper">
