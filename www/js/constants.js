@@ -5,5 +5,6 @@ angular.module('cinstagram.constants', [])
     authenticate: '/auth',
     users: '/users',
     posts: '/posts',
-    comments: '/comments'
+    comments: '/comments',
+    activity: '/activity'
 });

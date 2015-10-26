@@ -1,13 +1,13 @@
 <ion-view view-title="DISCOVER PEOPLE">
   <ion-nav-buttons side="secondary">
-    <a class="button button-icon icon ion-ios-search-strong" href="#/app/search">Search</a>
+    <a class="button button-icon icon ion-ios-search-strong" href="#/app/search"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
     <div class="list card" ng-repeat="post in posts | limitTo: 10">
       <div class="item item-avatar">
         <img ng-src="{{ post.user.avatar }}">
         <a href ="#/app/discover-profile/{{ post.user._id }}" class="a-username">{{ post.user.username }}</a>
-        <p>{{ post.date }}</p>
+        <p><span am-time-ago="post.date"></span></p>
       </div>
 
       <div class="item item-body">

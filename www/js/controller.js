@@ -1,11 +1,17 @@
 angular.module('cinstagram.controllers', [])
 
-.controller('WelcomeCtrl', function($scope, $state, $ionicPopup, AuthService) {
+.controller('WelcomeCtrl', function($scope, $state, $ionicPopup, $ionicLoading, AuthService) {
     var promise = function () {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+
         AuthService.check()
             .then(function(res) {
+                $ionicLoading.hide();
                 $state.go('app.home', {}, {reload: true});
             }, function(err) {
+                $ionicLoading.hide();
                 others();
             });
     };
@@ -44,13 +50,19 @@ angular.module('cinstagram.controllers', [])
     }
 })
 
-.controller('HomeCtrl', function($scope, $state, $ionicPopup, AuthService, PostService, LikeService) {
+.controller('HomeCtrl', function($scope, $state, $ionicPopup, $ionicLoading, AuthService, PostService, LikeService) {
     var promise = function () {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+
         AuthService.check()
             .then(function(res) {
                 AuthService.user = res.user;
+                $ionicLoading.hide();
                 others();
             }, function(err) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Session Failed',
                     template: err.message
@@ -62,11 +74,16 @@ angular.module('cinstagram.controllers', [])
 
     var others = function () {
         $scope.checkHome = function () {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
             PostService.checkHome()
                 .then(function(res) {
                     $scope.posts = res.posts;
+                    $ionicLoading.hide();
                 }, function(err) {
-
+                    $ionicLoading.hide();
                 });
         };
 
@@ -108,13 +125,19 @@ angular.module('cinstagram.controllers', [])
     }
 })
 
-.controller('SearchCtrl', function($scope, $state, $ionicPopup, AuthService, PostService, LikeService, SearchService) {
+.controller('SearchCtrl', function($scope, $state, $ionicPopup, $ionicLoading, AuthService, PostService, LikeService, SearchService) {
     var promise = function () {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+
         AuthService.check()
             .then(function(res) {
                 AuthService.user = res.user;
+                $ionicLoading.hide();
                 others();
             }, function(err) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Session Failed',
                     template: err.message
@@ -126,11 +149,16 @@ angular.module('cinstagram.controllers', [])
 
     var others = function () {
         $scope.checkDiscover = function () {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
             PostService.checkDiscover()
                 .then(function(res) {
                     $scope.posts = res.posts;
+                    $ionicLoading.hide();
                 }, function(err) {
-
+                    $ionicLoading.hide();
                 });
         };
 
@@ -195,13 +223,19 @@ angular.module('cinstagram.controllers', [])
     }
 })
 
-.controller('CameraCtrl', function($scope, $state, $ionicPopup, AuthService, $cordovaCamera, $cordovaImagePicker, PostService) {
+.controller('CameraCtrl', function($scope, $state, $ionicPopup, $ionicLoading, AuthService, $cordovaCamera, $cordovaImagePicker, PostService) {
     var promise = function () {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+
         AuthService.check()
             .then(function(res) {
                 AuthService.user = res.user;
+                $ionicLoading.hide();
                 others();
             }, function(err) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Session Failed',
                     template: err.message
@@ -262,10 +296,16 @@ angular.module('cinstagram.controllers', [])
         };
 
         $scope.post = function() {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
             PostService.postPost($scope.image, $scope.data)
                 .then(function(res) {
+                    $ionicLoading.hide();
                     $state.go('app.home', {}, {reload: true});
                 }, function(err) {
+                    $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: 'Try again',
                         template: 'Post failed.'
@@ -275,13 +315,19 @@ angular.module('cinstagram.controllers', [])
     }
 })
 
-.controller('ActivityCtrl', function($scope, $state, $ionicPopup, AuthService) {
+.controller('ActivityCtrl', function($scope, $state, $ionicPopup, $ionicLoading, AuthService, LikeService) {
     var promise = function () {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+
         AuthService.check()
             .then(function(res) {
                 AuthService.user = res.user;
+                $ionicLoading.hide();
                 others();
             }, function(err) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Session Failed',
                     template: err.message
@@ -292,17 +338,55 @@ angular.module('cinstagram.controllers', [])
     promise();
 
     var others = function () {
-        
+        $scope.checkActivity = function () {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
+            LikeService.checkActivity()
+                .then(function(res) {
+                    $scope.activities = res.activities;
+                    $ionicLoading.hide();
+                }, function(err) {
+                    $ionicLoading.hide();
+                });
+        };
+
+        $scope.checkActivityYou = function () {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
+            LikeService.checkActivityYou()
+                .then(function(res) {
+                    $scope.activities = res.activities;
+                    $ionicLoading.hide();
+                }, function(err) {
+                    $ionicLoading.hide();
+                });
+        };
+
+        if ($state.current.name === "app.activity.you") {
+            $scope.checkActivityYou();
+        } else {
+            $scope.checkActivity();
+        }
     }
 })
 
-.controller('ProfileCtrl', function($scope, $state, $stateParams, $ionicPopup, $cordovaCamera, $cordovaImagePicker, AuthService, PostService, ProfileService, FollowService, LikeService) {
+.controller('ProfileCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaImagePicker, AuthService, PostService, ProfileService, FollowService, LikeService) {
     var promise = function () {
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+
         AuthService.check()
             .then(function(res) {
                 AuthService.user = res.user;
+                $ionicLoading.hide();
                 others();
             }, function(err) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Session Failed',
                     template: err.message
@@ -370,14 +454,25 @@ angular.module('cinstagram.controllers', [])
             });
         };
 
+        $scope.clickAvatar = function() {
+            $state.go('app.profile-avatar', {}, {reload: true});
+        };
+
         $scope.updateAvatar = function() {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
             ProfileService.updateAvatar($scope.avatar)
                 .then(function(res) {
+                    $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: 'Success',
                         template: JSON.parse(res.response).message
                     });
+                    $state.go('app.profile', {}, {reload: true});
                 }, function(err) {
+                    $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: 'Try again',
                         template: 'Update avatar failed.'
@@ -427,20 +522,30 @@ angular.module('cinstagram.controllers', [])
         };
 
         $scope.checkProfile = function (id) {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
             ProfileService.checkProfile(id)
                 .then(function(res) {
                     $scope.profile = res.profile;
+                    $ionicLoading.hide();
                 }, function(err) {
-
+                    $ionicLoading.hide();
                 });
         };
 
         $scope.checkPost = function (id) {
+            $ionicLoading.show({
+              template: 'Loading...'
+            });
+
             PostService.checkPost(id)
                 .then(function(res) {
                     $scope.posts = res.posts;
+                    $ionicLoading.hide();
                 }, function(err) {
-
+                    $ionicLoading.hide();
                 });
         };
 

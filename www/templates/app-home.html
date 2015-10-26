@@ -10,7 +10,7 @@
       <div class="item item-avatar">
         <img ng-src="{{ post.user.avatar }}">
         <a href ="#/app/home-profile/{{ post.user._id }}" class="a-username">{{ post.user.username }}</a>
-        <p>{{ post.date }}</p>
+        <p><span am-time-ago="post.date"></span></p>
       </div>
 
       <div class="item item-body">

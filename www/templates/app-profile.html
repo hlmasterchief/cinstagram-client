@@ -5,7 +5,8 @@
   </ion-nav-buttons>
   <ion-content class="padding">
     <div class="item item-thumbnail-left">
-      <img ng-src="{{ profile.avatar }}">
+      <img ng-src="{{ profile.avatar }}" ng-if="isMine(profile._id)" ng-click="clickAvatar()">
+      <img ng-src="{{ profile.avatar }}" ng-if="!isMine(profile._id)">
       <div class="row">
           <div class="col"><h2><b>{{ profile.posts.length }}</b></h2><p>posts</p></div>
           <div class="col"><a href="#/app/{{ prefix }}followers/{{ profile._id }}"><h2><b>{{ profile.followers.length }}</b></h2><p>followers</p></a></div>
@@ -19,7 +20,7 @@
       <div class="item item-avatar">
         <img ng-src="{{ post.user.avatar }}">
         <span  class="a-username">{{ post.user.username }}</span>
-        <p>{{ post.date }}</p>
+        <p><span am-time-ago="post.date"></span></p>
       </div>
 
       <div class="item item-body">

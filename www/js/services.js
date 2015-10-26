@@ -337,10 +337,41 @@ angular.module('cinstagram.services', ['ionic', 'cinstagram.constants'])
             }
         }
         return false;
-    }
+    };
+
+    var activities;
+    var checkActivity = function() {
+        return $q(function(resolve, reject) {
+            $http.get(URL.base + URL.activity)
+                .success(function(res) {
+                    activities = res.activities;
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
+
+    var checkActivityYou = function() {
+        return $q(function(resolve, reject) {
+            $http.get(URL.base + URL.activity + '/you')
+                .success(function(res) {
+                    activities = res.activities;
+                    resolve(res);
+                })
+
+                .error(function(err) {
+                    reject(err);
+                });
+        });
+    };
 
     return {
         like: like,
-        checkLike: checkLike
+        checkLike: checkLike,
+        checkActivity: checkActivity,
+        checkActivityYou: checkActivityYou
     };
 })

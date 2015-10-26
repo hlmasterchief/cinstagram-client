@@ -37,3 +37,16 @@ a {
     color: #4183D7;
     font-weight: bold;
 }
+
+.item-activity {
+    padding-right: 72px;
+}
+
+.item-activity img:last-child {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    max-height: 40px;
+    width: auto;
+    height: 100%;
+}
